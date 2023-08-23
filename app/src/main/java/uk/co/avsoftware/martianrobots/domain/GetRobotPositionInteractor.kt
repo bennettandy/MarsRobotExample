@@ -11,8 +11,6 @@ class GetRobotPositionInteractor(
         return with(getCoordinatesFromStringInteractor(location)) {
             val positionLastCharacter = position.trim().takeLast(1)
             RobotPosition(x = first, y = second, direction = RobotDirection.of(positionLastCharacter))
-        }.also {
-            println("Robot Start Position: $it")
         }
     }
 }

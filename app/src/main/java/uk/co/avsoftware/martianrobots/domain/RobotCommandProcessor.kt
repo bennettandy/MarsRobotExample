@@ -17,9 +17,7 @@ class RobotCommandProcessor {
     private tailrec fun runCommand(bounds: PlanetBounds, currentPosition: RobotPosition, commandString: String): RobotPosition {
         if (commandString.isEmpty() || currentPosition.lost) return currentPosition
 
-        val command = commandString[0]
-
-        println("xxx command $command")
+        val command: String = commandString[0].toString()
 
         val newPosition = when (RobotCommand.valueOf(command.toString())) {
             RobotCommand.F -> moveForward(
@@ -31,26 +29,26 @@ class RobotCommandProcessor {
             RobotCommand.R -> turnRight(startPosition = currentPosition)
         }
 
-        println("New position $newPosition")
-
         return runCommand(bounds, newPosition, commandString.drop(1))
     }
 
-    private fun turnLeft(startPosition: RobotPosition): RobotPosition =
-        when (startPosition.direction) {
+    private fun turnLeft(startPosition: RobotPosition): RobotPosition {
+        return when (startPosition.direction) {
             RobotDirection.N -> startPosition.copy(direction = RobotDirection.W)
             RobotDirection.S -> startPosition.copy(direction = RobotDirection.E)
             RobotDirection.E -> startPosition.copy(direction = RobotDirection.N)
             RobotDirection.W -> startPosition.copy(direction = RobotDirection.S)
         }
+    }
 
-    private fun turnRight(startPosition: RobotPosition): RobotPosition =
-        when (startPosition.direction) {
+    private fun turnRight(startPosition: RobotPosition): RobotPosition {
+        return when (startPosition.direction) {
             RobotDirection.N -> startPosition.copy(direction = RobotDirection.E)
             RobotDirection.S -> startPosition.copy(direction = RobotDirection.W)
             RobotDirection.E -> startPosition.copy(direction = RobotDirection.S)
             RobotDirection.W -> startPosition.copy(direction = RobotDirection.N)
         }
+    }
 
     private fun moveForward(
         planetBounds: PlanetBounds,
@@ -77,8 +75,6 @@ class RobotCommandProcessor {
     }
 
     private fun RobotPosition.checkBounds(bounds: PlanetBounds, startPosition: RobotPosition): RobotPosition {
-        println("Check Bounds dir: $direction x:$x, y:$y, lost=$lost")
-
         val result = when {
             (x >= bounds.width || x < 0) -> startPosition.copy(lost = true)
             (y >= bounds.height || y < 0) -> startPosition.copy(lost = true)

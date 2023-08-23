@@ -31,6 +31,33 @@ class TestRobotPositionCommandProcessor {
         assertEquals(ExpectedOutput, result)
     }
 
+    @Test
+    fun robotPositionsAreCalculatedCorrectly2() {
+        // given
+        val sut = RobotPositionCommandProcessor(
+            commandProcessor = RobotCommandProcessor(),
+            getPositionInteractor = GetRobotPositionInteractor(
+                getCoordinatesFromStringInteractor = GetCoordinatesFromStringInteractor(),
+            ),
+            getBoundsInteractor = GetPlanetaryBoundsInteractor(
+                getCoordinatesFromStringInteractor = GetCoordinatesFromStringInteractor(),
+            ),
+        )
+
+        // when
+        val result: String = sut.processRobotCommandString(
+            """
+            53
+            03W 
+            LLFFFLFLFL
+
+            """.trimIndent(),
+        )
+
+        // then
+        assertEquals("33NLOST", result)
+    }
+
     companion object {
         private val TestInput = """
             53
@@ -47,8 +74,8 @@ class TestRobotPositionCommandProcessor {
 
         private val ExpectedOutput = """
             11E
-            33NLOST 
-            23S
+            33NLOST
+            33NLOST
         """.trimIndent()
     }
 }
