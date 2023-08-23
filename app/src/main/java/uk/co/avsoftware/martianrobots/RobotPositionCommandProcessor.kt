@@ -41,7 +41,9 @@ class RobotPositionCommandProcessor(
         val location: RobotPosition = getPositionInteractor(commands[0])
         val commandString: String = commands[1]
         val finalPosition: RobotPosition = commandProcessor.processCommands(bounds, location, commandString)
-
+        println("Start position: $location")
+        println("Command: $location")
+        println("Final position: $finalPosition")
         return processRobotCommand(bounds = bounds, commands = commands.drop(3), results = results.plus(finalPosition.toString()))
     }
 

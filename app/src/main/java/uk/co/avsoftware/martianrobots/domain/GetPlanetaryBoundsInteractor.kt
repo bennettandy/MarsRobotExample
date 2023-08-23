@@ -8,8 +8,8 @@ class GetPlanetaryBoundsInteractor(
     operator fun invoke(boundsString: String): PlanetBounds =
         with(getCoordinatesFromStringInteractor(boundsString.trim())) {
             PlanetBounds(
-                width = first,
-                height = second,
+                width = first + 1,
+                height = second + 1,
             )
         }
 }
