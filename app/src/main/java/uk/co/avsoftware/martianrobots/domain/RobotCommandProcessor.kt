@@ -14,52 +14,62 @@ class RobotCommandProcessor {
         // mutable variables for simplicity
         var currentPosition = robotPosition
 
-        var x = robotPosition.x
-        var y = robotPosition.y
-        var direction = robotPosition.direction
-
         commands.forEach {
-            currentPosition = when (RobotCommand.valueOf(it.toString())){
+            currentPosition = when (RobotCommand.valueOf(it.toString())) {
                 RobotCommand.F -> moveForward(planetBounds = bounds, startPosition = currentPosition)
                 RobotCommand.L -> turnLeft(startPosition = currentPosition)
                 RobotCommand.R -> turnRight(startPosition = currentPosition)
             }
         }
 
-        return RobotPosition(-1, 0-1, RobotDirection.Lost)
+        return with(currentPosition) {
+            RobotPosition(x, y, direction = direction)
+        }
     }
 
     private fun turnLeft(startPosition: RobotPosition): RobotPosition =
-        when (startPosition.direction){
-            RobotDirection.North -> startPosition.copy(direction = RobotDirection.West)
-            RobotDirection.South -> startPosition.copy(direction = RobotDirection.East)
-            RobotDirection.East -> startPosition.copy(direction = RobotDirection.North)
-            RobotDirection.West -> startPosition.copy(direction = RobotDirection.South)
+        when (startPosition.direction) {
+            RobotDirection.N -> startPosition.copy(direction = RobotDirection.W)
+            RobotDirection.S -> startPosition.copy(direction = RobotDirection.E)
+            RobotDirection.E -> startPosition.copy(direction = RobotDirection.N)
+            RobotDirection.W -> startPosition.copy(direction = RobotDirection.S)
             else -> startPosition
         }
 
     private fun turnRight(startPosition: RobotPosition): RobotPosition =
-        when (startPosition.direction){
-            RobotDirection.North -> startPosition.copy(direction = RobotDirection.East)
-            RobotDirection.South -> startPosition.copy(direction = RobotDirection.West)
-            RobotDirection.East -> startPosition.copy(direction = RobotDirection.South)
-            RobotDirection.West -> startPosition.copy(direction = RobotDirection.North)
+        when (startPosition.direction) {
+            RobotDirection.N -> startPosition.copy(direction = RobotDirection.E)
+            RobotDirection.S -> startPosition.copy(direction = RobotDirection.W)
+            RobotDirection.E -> startPosition.copy(direction = RobotDirection.S)
+            RobotDirection.W -> startPosition.copy(direction = RobotDirection.N)
             else -> startPosition
         }
 
     private fun moveForward(planetBounds: PlanetBounds, startPosition: RobotPosition): RobotPosition =
-        when (startPosition.direction){
-            RobotDirection.North -> startPosition.copy(y = startPosition.y+1).checkBounds(planetBounds)
-            RobotDirection.South -> startPosition.copy(y = startPosition.y-1).checkBounds(planetBounds)
-            RobotDirection.East -> startPosition.copy(x = startPosition.x+1).checkBounds(planetBounds)
-            RobotDirection.West -> startPosition.copy(x = startPosition.x-1).checkBounds(planetBounds)
-            else -> startPosition
+        if (!startPosition.lost) {
+            when (startPosition.direction) {
+                RobotDirection.N -> startPosition.copy(y = startPosition.y + 1)
+                    .checkBounds(planetBounds, startPosition)
+
+                RobotDirection.S -> startPosition.copy(y = startPosition.y - 1)
+                    .checkBounds(planetBounds, startPosition)
+
+                RobotDirection.E -> startPosition.copy(x = startPosition.x + 1)
+                    .checkBounds(planetBounds, startPosition)
+
+                RobotDirection.W -> startPosition.copy(x = startPosition.x - 1)
+                    .checkBounds(planetBounds, startPosition)
+            }
+        } else {
+            startPosition
         }
 
-    private fun RobotPosition.checkBounds(bounds: PlanetBounds): RobotPosition =
+    private fun RobotPosition.checkBounds(bounds: PlanetBounds, startPosition: RobotPosition): RobotPosition =
         when {
-            (x > bounds.width || x < 0 ) -> copy(direction = RobotDirection.Lost)
-            (y > bounds.height || y < 0 ) -> copy(direction = RobotDirection.Lost)
+            (x >= bounds.width || x <= 0) -> copy(lost = true)
+            (y >= bounds.height || y <= 0) -> copy(lost = true)
             else -> this
+        }.also {
+            println("Position: $this , bounds $bounds")
         }
 }

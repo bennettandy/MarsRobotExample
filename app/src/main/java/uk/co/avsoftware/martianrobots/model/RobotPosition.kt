@@ -4,7 +4,12 @@ data class RobotPosition(
     val x: Int,
     val y: Int,
     val direction: RobotDirection,
+    val lost: Boolean = false,
 ) {
     override fun toString(): String =
-        "$x$y${direction.statusString}"
+        if (lost) {
+            "$x$y${direction.name}LOST"
+        } else {
+            "$x$y${direction.name}"
+        }
 }

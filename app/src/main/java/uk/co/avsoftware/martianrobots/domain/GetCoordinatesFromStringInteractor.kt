@@ -8,7 +8,7 @@ package uk.co.avsoftware.martianrobots.domain
  */
 class GetCoordinatesFromStringInteractor {
     operator fun invoke(coordinateString: String): Pair<Int, Int> =
-        with(coordinateString) {
+        with(coordinateString.trim()) {
             when (length) {
                 2 -> intPair(substring(0..0), substring(1..1))
                 4 -> intPair(substring(0..1), substring(2..3))

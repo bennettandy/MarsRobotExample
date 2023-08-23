@@ -42,7 +42,7 @@ class RobotPositionCommandProcessor(
         val commandString: String = commands[1]
         val finalPosition: RobotPosition = commandProcessor.processCommands(bounds, location, commandString)
 
-        return processRobotCommand(bounds = bounds, commands = commands.drop(2), results = results.plus(finalPosition.toString()))
+        return processRobotCommand(bounds = bounds, commands = commands.drop(3), results = results.plus(finalPosition.toString()))
     }
 
 
