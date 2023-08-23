@@ -7,4 +7,4 @@ Right click on app/src/test and select Run tests.
 The tests can also be run via gradle: gradle testDebug and the results will be found in the following location:
 MarsRobotExample/app/build/reports/tests/testDebugUnitTest/index.html
 
-![test_screenshot](https://github.com/bennettandy/MarsRobotExample/assets/1751538/673dd181-ea9d-4d41-a904-5352f182a98a)
+![test_screenshot](https://github.com/bennettandy/MarsRobotExample/assets/1751538/b841c7cd-5187-45a6-be38-f1aad94bc807)
