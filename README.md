@@ -23,6 +23,9 @@ val bounds = getBoundsInteractor(lines.first())
 ```
 
 Robot command processor class:
+Again using tail recursion to process each command, followed by a bounds check function to detect loss of robot. 
+Loss of robot prevents further movements.
+
 [RobotCommandProcessor.kt](https://github.com/bennettandy/MarsRobotExample/blob/main/app/src/main/java/uk/co/avsoftware/martianrobots/domain/RobotCommandProcessor.kt)
 
 ![test_screenshot](https://github.com/bennettandy/MarsRobotExample/assets/1751538/b841c7cd-5187-45a6-be38-f1aad94bc807)
