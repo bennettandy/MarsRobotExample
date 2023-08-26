@@ -1,5 +1,5 @@
 # MarsRobotExample
-Code exercise to process robot movement instructions and determine final positions
+Time limited Code exercise to process robot movement instructions and determine final positions
 
 No UI yet for this test,
 Components can be tested in AndroidStudio.
